@@ -2,22 +2,20 @@ import React from 'react';
 import { Coffee, ShoppingCart, Package, BarChart3 } from 'lucide-react';
 import { Icono, Texto } from '../atoms';
 import { ElementoNavegacion, PerfilUsuario } from '../molecules';
-import { useApp } from '../../controllers';
 
-const NAV_ITEMS = [
-  { id: 'pos', icon: ShoppingCart, label: 'Punto de Venta' },
-  { id: 'admin', icon: Package, label: 'Inventario' },
-  { id: 'manager', icon: BarChart3, label: 'Gerencia' },
-];
+const ICON_MAP = {
+  pos: ShoppingCart,
+  admin: Package,
+  manager: BarChart3,
+};
 
-export const BarraLateral = ({ className = '' }) => {
-  const { activeTab, navigateTo } = useApp();
-
-  const handleLogout = () => {
-    // Implement logout logic
-    console.log('Logout clicked');
-  };
-
+export const BarraLateral = ({ 
+  activeTab,
+  navItems = [],
+  onNavigate,
+  onLogout,
+  className = '' 
+}) => {
   return (
     <aside className={`w-64 bg-gray-900 text-white flex flex-col p-4 ${className}`}>
       {/* Logo */}
@@ -32,20 +30,20 @@ export const BarraLateral = ({ className = '' }) => {
       
       {/* Navigation */}
       <nav className="flex-1 space-y-2">
-        {NAV_ITEMS.map(item => (
+        {navItems.map(item => (
           <ElementoNavegacion
             key={item.id}
-            icon={item.icon}
+            icon={ICON_MAP[item.id]}
             label={item.label}
             isActive={activeTab === item.id}
-            onClick={() => navigateTo(item.id)}
+            onClick={() => onNavigate(item.id)}
           />
         ))}
       </nav>
 
       {/* User Profile */}
       <div className="border-t border-gray-800 pt-4 mt-auto">
-        <PerfilUsuario onLogout={handleLogout} />
+        <PerfilUsuario onLogout={onLogout} />
       </div>
     </aside>
   );

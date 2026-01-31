@@ -3,14 +3,10 @@ import { Texto, Boton } from '../atoms';
 import { ProductoEstrella } from '../molecules';
 
 export const ListaTopProductos = ({ 
-  products,
+  products = [],
+  onExport,
   className = '' 
 }) => {
-  const handleExport = (format) => {
-    console.log(`Exporting to ${format}...`);
-    alert(`Exportando a ${format}...`);
-  };
-
   return (
     <div className={`bg-white p-6 rounded-xl border shadow-sm ${className}`}>
       <Texto variant="h4" as="h3" className="mb-6 flex items-center gap-2 text-amber-800">
@@ -33,7 +29,7 @@ export const ListaTopProductos = ({
           <Boton 
             variant="outline" 
             size="sm"
-            onClick={() => handleExport('PDF')}
+            onClick={() => onExport('PDF')}
             className="flex-1"
           >
             PDF REPORT
@@ -41,7 +37,7 @@ export const ListaTopProductos = ({
           <Boton 
             variant="outline" 
             size="sm"
-            onClick={() => handleExport('Excel')}
+            onClick={() => onExport('Excel')}
             className="flex-1"
           >
             EXCEL DATA

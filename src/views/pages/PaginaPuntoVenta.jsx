@@ -1,26 +1,36 @@
 import React from 'react';
-import { useApp } from '../../controllers';
 import { EncabezadoSeccion, GrillaProductos, PanelCarrito } from '../organisms';
 
-export const PaginaPuntoVenta = () => {
-  const { filteredProducts, handleSearch, addToCart } = useApp();
-
+export const PaginaPuntoVenta = ({
+  products,
+  cart,
+  cartTotal,
+  onSearch,
+  onAddToCart,
+  onRemoveFromCart,
+  onProcessPayment,
+}) => {
   return (
     <div className="flex gap-8 h-full">
       <div className="flex-1 flex flex-col">
         <EncabezadoSeccion
           title="Terminal de Ventas"
           showSearch
-          onSearch={handleSearch}
+          onSearch={onSearch}
         />
         
         <GrillaProductos
-          products={filteredProducts}
-          onProductClick={addToCart}
+          products={products}
+          onProductClick={onAddToCart}
         />
       </div>
 
-      <PanelCarrito />
+      <PanelCarrito
+        cart={cart}
+        cartTotal={cartTotal}
+        onRemove={onRemoveFromCart}
+        onProcessPayment={onProcessPayment}
+      />
     </div>
   );
 };

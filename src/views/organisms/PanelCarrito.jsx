@@ -2,10 +2,15 @@ import React from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { Texto, Boton, Icono } from '../atoms';
 import { ElementoCarrito } from '../molecules';
-import { useApp } from '../../controllers';
 
-export const PanelCarrito = ({ className = '' }) => {
-  const { cart, cartTotal, isCartEmpty, removeFromCart, processPayment } = useApp();
+export const PanelCarrito = ({ 
+  cart = [],
+  cartTotal = 0,
+  onRemove,
+  onProcessPayment,
+  className = '' 
+}) => {
+  const isEmpty = cart.length === 0;
 
   return (
     <div className={`w-96 bg-white rounded-2xl shadow-xl flex flex-col border border-gray-100 ${className}`}>
@@ -18,7 +23,7 @@ export const PanelCarrito = ({ className = '' }) => {
 
       {/* Cart Items */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {isCartEmpty ? (
+        {isEmpty ? (
           <div className="h-full flex flex-col items-center justify-center text-gray-400">
             <Icono icon={ShoppingCart} size={48} className="stroke-1" />
             <Texto variant="muted" className="mt-2">Sin productos</Texto>
@@ -28,7 +33,7 @@ export const PanelCarrito = ({ className = '' }) => {
             <ElementoCarrito
               key={item.id}
               item={item}
-              onRemove={removeFromCart}
+              onRemove={onRemove}
             />
           ))
         )}
@@ -45,8 +50,8 @@ export const PanelCarrito = ({ className = '' }) => {
         <Boton 
           variant="primary"
           size="full"
-          disabled={isCartEmpty}
-          onClick={processPayment}
+          disabled={isEmpty}
+          onClick={onProcessPayment}
         >
           Confirmar Pago
         </Boton>
